@@ -1,0 +1,36 @@
+body {
+  align-items: center;
+  text-align: center;
+}
+header {
+  align-items: center;
+  text-align: center;
+}
+.game-status-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.game-grid {
+  display: grid;
+  justify-content: center;
+  grid-template-rows: 50px 50px 50px;
+  grid-template-columns: 50px 50px 50px;
+  gap: 1px;
+}
+
+.cell {
+  align-items: center;
+}
+
+.input-box {
+  height: 50px;
+  width: 50px;
+  border: solid;
+  border-color: darkgrey;
+}
+
+.btn-container {
+  padding-top: 20px;
+}
