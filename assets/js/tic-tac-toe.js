@@ -136,7 +136,7 @@ function disableAllInputs() {
   document.getElementById("c1").disabled = true;
   document.getElementById("c2").disabled = true;
   document.getElementById("c3").disabled = true;
-  //   document.getElementById("btn-undo").disabled = true;
+  document.getElementById("btn-undo").disabled = true;
   setStyle();
 }
 function enableAllInputs() {
