@@ -21,14 +21,17 @@ header {
 }
 
 .cell {
-  align-items: center;
+  height: 50px;
+  width: 50px;
 }
 
 .input-box {
-  height: 50px;
-  width: 50px;
+  height: 100%;
+  width: 100%;
+  padding: 0;
   border: solid;
-  border-color: darkgrey;
+  border-color: grey;
+  text-align: center;
 }
 
 .btn-container {

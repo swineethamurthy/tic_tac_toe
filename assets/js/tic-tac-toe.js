@@ -3,6 +3,7 @@ var nextTurn = "X";
 var clickCounter = 1;
 var gameStatus = "Start";
 var lastClickedCell = "";
+
 function onInputClick(e) {
   lastClickedCell = e.target.id;
   if (
@@ -52,7 +53,7 @@ function chkGameStatus() {
       gameStatus = "o-Win";
     }
   } else {
-    if (clickCounter == 10) {
+    if (clickCounter == 9) {
       gameStatus = "draw";
     }
   }
@@ -93,12 +94,14 @@ function onReset() {
 }
 
 function setStatus() {
+  console.log(gameStatus);
   if (gameStatus == "x-Win") {
     gameStatusValue = "X wins";
     nextTurn = "Game Over";
     disableAllInputs();
   } else if (gameStatus == "o-Win") {
     gameStatusValue = "O wins";
+    setStyle();
     disableAllInputs();
     nextTurn = "Game Over";
   } else if (gameStatus == "draw") {
@@ -108,8 +111,19 @@ function setStatus() {
   } else {
     gameStatusValue = "Game in progress";
   }
+
   document.getElementById("game-status").innerText = gameStatusValue;
   document.getElementById("next-turn").innerText = nextTurn;
+}
+function setStyle() {
+  var setColour;
+  if ((gameStatus = "draw")) {
+    setColour = "red";
+  } else {
+    setColour = "green";
+  }
+  document.getElementById("game-status").style.color = setColour;
+  document.getElementById("next-turn").style.color = setColour;
 }
 
 function disableAllInputs() {
@@ -123,6 +137,7 @@ function disableAllInputs() {
   document.getElementById("c2").disabled = true;
   document.getElementById("c3").disabled = true;
   //   document.getElementById("btn-undo").disabled = true;
+  setStyle();
 }
 function enableAllInputs() {
   document.getElementById("a1").disabled = false;
