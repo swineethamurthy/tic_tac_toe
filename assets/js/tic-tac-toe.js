@@ -1,9 +1,10 @@
 var gameStatusValue = "Game to be started";
-var nextTurn = "O";
-var clickCounter = 0;
+var nextTurn = "X";
+var clickCounter = 1;
 var gameStatus = "Start";
+var lastClickedCell = "";
 function onInputClick(e) {
-  clickCounter = clickCounter + 1;
+  lastClickedCell = e.target.id;
   if (
     clickCounter == 1 ||
     clickCounter == 3 ||
@@ -17,8 +18,9 @@ function onInputClick(e) {
     document.getElementById(e.target.id).value = "O";
     nextTurn = "X";
   }
+  clickCounter = clickCounter + 1;
   document.getElementById(e.target.id).disabled = true;
-  //   setStatus();
+  setStatus();
   if (clickCounter >= 4) {
     chkGameStatus();
   }
@@ -35,60 +37,103 @@ function chkGameStatus() {
   var c2 = document.getElementById("c2").value;
   var c3 = document.getElementById("c3").value;
   if (
-    (a1 == a2 && a1 == a3) ||
-    (b1 == b2 && b1 == b3) ||
-    (c1 == c2 && c1 == c3) ||
-    (a1 == b1 && a1 == c1) ||
-    (a2 == b2 && a2 == c2) ||
-    (a3 == b3 && a3 == c3) ||
-    (a1 == b2 && a1 == c3) ||
-    (a3 == b2 && a3 == c1)
+    (a1 == a2 && a1 == a3 && a3 != "") ||
+    (b1 == b2 && b1 == b3 && b3 != "") ||
+    (c1 == c2 && c1 == c3 && c3 != "") ||
+    (a1 == b1 && a1 == c1 && c1 != "") ||
+    (a2 == b2 && a2 == c2 && c2 != "") ||
+    (a3 == b3 && a3 == c3 && c3 != "") ||
+    (a1 == b2 && a1 == c3 && c3 != "") ||
+    (a3 == b2 && a3 == c1 && c1 != "")
   ) {
-    console.log("nextTurn - ", nextTurn);
-    if ((nextTurn = "O")) {
+    if (nextTurn == "O") {
       gameStatus = "x-Win";
-      console.log("game status : ", gameStatus);
     } else {
       gameStatus = "o-Win";
-      console.log("game status : ", gameStatus);
     }
   } else {
-    gameStatus = "draw";
-    console.log("game status : ", gameStatus);
+    if (clickCounter == 10) {
+      gameStatus = "draw";
+    }
   }
-
-  console.log("game status : ", gameStatus);
   setStatus();
 }
 
-function onUndo() {}
+function onUndo() {
+  console.log(lastClickedCell);
+  if (clickCounter == 1) {
+    gameStatus = "Start";
+    gameStatusValue = "Game to be started";
+  } else {
+    gameStatusValue = "Game in progress";
+  }
+
+  document.getElementById(lastClickedCell).value = "";
+  document.getElementById(lastClickedCell).disabled = false;
+  clickCounter = clickCounter - 1;
+}
 
 function onReset() {
   clickCounter = 0;
-  document.getElementById("next-turn").innerText = gameStatusValue;
-  document.getElementById("a1").innerText = "";
-  document.getElementById("a2").innerText = "";
-  document.getElementById("a3").innerText = "";
-  document.getElementById("b1").innerText = "";
-  document.getElementById("b2").innerText = "";
-  document.getElementById("b3").innerText = "";
-  document.getElementById("c1").innerText = "";
-  document.getElementById("c2").innerText = "";
-  document.getElementById("c3").innerText = "";
+  nextTurn = "X";
+  gameStatus = "Start";
+  gameStatusValue = "Game to be started";
+  document.getElementById("game-status").innerText = "Start Game";
+  document.getElementById("next-turn").innerText = "X";
+  document.getElementById("a1").value = "";
+  document.getElementById("a2").value = "";
+  document.getElementById("a3").value = "";
+  document.getElementById("b1").value = "";
+  document.getElementById("b2").value = "";
+  document.getElementById("b3").value = "";
+  document.getElementById("c1").value = "";
+  document.getElementById("c2").value = "";
+  document.getElementById("c3").value = "";
+  enableAllInputs();
 }
 
 function setStatus() {
   if (gameStatus == "x-Win") {
     gameStatusValue = "X wins";
+    nextTurn = "Game Over";
+    disableAllInputs();
   } else if (gameStatus == "o-Win") {
     gameStatusValue = "O wins";
+    disableAllInputs();
+    nextTurn = "Game Over";
   } else if (gameStatus == "draw") {
     gameStatusValue = "Match Draw";
+    disableAllInputs();
+    nextTurn = "Game Over";
   } else {
     gameStatusValue = "Game in progress";
   }
   document.getElementById("game-status").innerText = gameStatusValue;
   document.getElementById("next-turn").innerText = nextTurn;
+}
+
+function disableAllInputs() {
+  document.getElementById("a1").disabled = true;
+  document.getElementById("a2").disabled = true;
+  document.getElementById("a3").disabled = true;
+  document.getElementById("b1").disabled = true;
+  document.getElementById("b2").disabled = true;
+  document.getElementById("b3").disabled = true;
+  document.getElementById("c1").disabled = true;
+  document.getElementById("c2").disabled = true;
+  document.getElementById("c3").disabled = true;
+  //   document.getElementById("btn-undo").disabled = true;
+}
+function enableAllInputs() {
+  document.getElementById("a1").disabled = false;
+  document.getElementById("a2").disabled = false;
+  document.getElementById("a3").disabled = false;
+  document.getElementById("b1").disabled = false;
+  document.getElementById("b2").disabled = false;
+  document.getElementById("b3").disabled = false;
+  document.getElementById("c1").disabled = false;
+  document.getElementById("c2").disabled = false;
+  document.getElementById("c3").disabled = false;
 }
 
 function setNextTurn() {
