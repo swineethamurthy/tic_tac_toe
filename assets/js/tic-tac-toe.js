@@ -94,14 +94,12 @@ function onReset() {
 }
 
 function setStatus() {
-  console.log(gameStatus);
   if (gameStatus == "x-Win") {
     gameStatusValue = "X wins";
     nextTurn = "Game Over";
     disableAllInputs();
   } else if (gameStatus == "o-Win") {
     gameStatusValue = "O wins";
-    setStyle();
     disableAllInputs();
     nextTurn = "Game Over";
   } else if (gameStatus == "draw") {
